@@ -1,0 +1,4 @@
+torch
+pydu
+xformers
+wandb
