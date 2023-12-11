@@ -14,7 +14,7 @@ parser.add_argument('--tune_text', type=int, required=False, default=0)
 parser.add_argument('--weight_decay', type=float, required=False, default=1e-5)
 parser.add_argument('--grad_acc', type=int, required=False, default=2)
 parser.add_argument('--warmup_steps', type=int, required=False, default=16)
-parser.add_argument('--batch_size', type=int, required=False, default=4)
+parser.add_argument('--batch_size', type=int, required=False, default=1)
 parser.add_argument('--use_cfg', type=int, required=False, default=0)
 args = parser.parse_args()
 

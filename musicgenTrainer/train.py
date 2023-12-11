@@ -12,6 +12,15 @@ from torch.utils.data import Dataset
 from audiocraft.modules.conditioners import ClassifierFreeGuidanceDropout
 import os
 
+import gc
+gc.collect()
+torch.cuda.empty_cache()
+
+import os
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:1024"
+
+
+print(torch.cuda.memory_summary(device=None, abbreviated=False)) 
 
 class AudioDataset(Dataset):
     def __init__(self, data_dir, no_label=False):
@@ -51,8 +60,11 @@ def count_nans(tensor):
     num_nans = torch.sum(nan_mask).item()
     return num_nans
 
+import torch
+torch.cuda.empty_cache()
 
 def preprocess_audio(audio_path, model: MusicGen, duration: int = 30):
+    model.eval()
     wav, sr = torchaudio.load(audio_path)
     wav = torchaudio.functional.resample(wav, sr, model.sample_rate)
     wav = wav.mean(dim=0, keepdim=True)
@@ -109,7 +121,7 @@ def train(
     use_scaler: bool = False,
     weight_decay: float = 1e-5,
     warmup_steps: int = 10,
-    batch_size: int = 10,
+    batch_size: int = 1,
     use_cfg: bool = False
 ):
     if use_wandb:
