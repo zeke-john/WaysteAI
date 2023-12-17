@@ -64,7 +64,6 @@ import torch
 torch.cuda.empty_cache()
 
 def preprocess_audio(audio_path, model: MusicGen, duration: int = 30):
-    model.eval()
     wav, sr = torchaudio.load(audio_path)
     wav = torchaudio.functional.resample(wav, sr, model.sample_rate)
     wav = wav.mean(dim=0, keepdim=True)
@@ -121,7 +120,7 @@ def train(
     use_scaler: bool = False,
     weight_decay: float = 1e-5,
     warmup_steps: int = 10,
-    batch_size: int = 2,
+    batch_size: int = 1,
     use_cfg: bool = False
 ):
     if use_wandb:
