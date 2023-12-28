@@ -120,7 +120,7 @@ def train(
     use_scaler: bool = False,
     weight_decay: float = 1e-5,
     warmup_steps: int = 10,
-    batch_size: int = 1,
+    batch_size: int = 2,
     use_cfg: bool = False
 ):
     if use_wandb:

@@ -1,9 +1,12 @@
-import sagemaker
-import boto3
+import os
 
-sm_boto3 = boto3.client("sagemaker")
-sess = sagemaker.Session()
-region = sess.boto_session.region_name
+folder_path = "/Users/zeke/Documents/Github/WaysteAI/data/training_data"
 
-bucket = 'mobbucketsagemakertest'
-print(bucket)
+# Get the list of files in the folder
+files = os.listdir(folder_path)
+
+# Count the number of files
+num_files = len(files)
+
+print(f"The number of files in the folder is: {num_files}")
+

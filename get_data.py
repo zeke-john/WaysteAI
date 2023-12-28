@@ -1,6 +1,18 @@
 import os
 from pydub import AudioSegment
 import librosa
+import re
+
+import re
+
+def remove_special_characters(input_string):
+    # Define a regular expression pattern to match special characters (excluding ":" and numbers)
+    pattern = re.compile('[^a-zA-Z ]')
+    
+    # Use the sub() method to replace matched characters with an empty string
+    result_string = re.sub(pattern, '', input_string)
+    
+    return result_string
 
 def process_audio(file_path, output_dir, segment_length=30):
     # Load audio file
@@ -8,7 +20,20 @@ def process_audio(file_path, output_dir, segment_length=30):
 
     # Get file name without extension for caption
     file_name = os.path.splitext(os.path.basename(file_path))[0]
-    file_name = f'''Rap Beat: {file_name.replace("FREE", "").replace("SOLD", "").replace("FREE FOR PROFIT", "").replace("(", "").replace(")", "").replace("[", "").replace("]", "").replace("  ", "").replace('"', '').replace("'", "").replace("| |", "").replace("|", "")}'''
+
+    file_name = remove_special_characters(file_name.lower().capitalize())
+    file_name = f'''{file_name.replace("free", "").replace("sold", "").replace("free for profit", "").replace("not sale", "")}'''
+    file_name = " ".join(file_name.split())
+    file_name = file_name.replace("type beat", "type rap beat^ ")
+    file_name = " ".join(file_name.split())
+    delimiter = "^"
+
+    # Use split to separate the string into parts based on the delimiter
+    split_parts = file_name.split(delimiter)
+
+    # Take the first part, which is the text before the delimiter
+    file_name = split_parts[0]
+
     print(file_name)
     # Convert segment length to milliseconds
     segment_length_ms = segment_length * 1000
@@ -44,7 +69,8 @@ def process_audio(file_path, output_dir, segment_length=30):
 
 # Directory setup
 output_directory = 'output'
-samples_directory = 'raw'
+# samples_directory = '/Users/zeke/Documents/Github/WaysteAI/data/training_data'
+samples_directory = '/Users/zeke/Documents/Github/WaysteAI/raw'
 
 # Check if the output directory exists, if not, create it
 if not os.path.exists(output_directory):
@@ -73,4 +99,3 @@ for file_name in os.listdir(output_directory):
             print(f"{file_name} has the correct shape: {audio.shape[0]}")
         else:
             print(f"{file_name} does not have the correct shape. Actual shape: {audio.shape[0]}")
-

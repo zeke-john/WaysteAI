@@ -20,7 +20,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--prompt', type=str, required=True)
 parser.add_argument('--weights_path', type=str, required=False, default=None)
-parser.add_argument('--model_id', type=str, required=False, default='small')
+parser.add_argument('--model_id', type=str, required=False, default='medium')
 parser.add_argument('--save_path', type=str, required=False, default='test.wav')
 parser.add_argument('--duration', type=float, required=False, default=30)
 parser.add_argument('--sample_loops', type=int, required=False, default=4)
